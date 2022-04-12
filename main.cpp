@@ -37,7 +37,7 @@ public:
     }
 
     //Getters
-    int GetSize() {return size;}
+    int GetSize() const {return size;}
 
     T GetItem(int index) const {
         if(index < 0 or index > size){std::cout << "\nerror: wrong index!\n"; return -1;}
@@ -70,35 +70,27 @@ public:
 
     //operators
     NDArray operator + (const NDArray<T> & other){
-        if (shape == other.shape) {
-            NDArray<T> temp(shape);
-            for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] + other.GetItem(i);
-            return temp;
-        }
+        NDArray<T> temp(shape);
+        for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] + other.GetItem(i);
+        return temp;
     };
 
     NDArray operator - (const NDArray<T> & other){
-        if (shape == other.shape) {
-            NDArray<T> temp(shape);
-            for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] - other.GetItem(i);
-            return temp;
-        }
+        NDArray<T> temp(shape);
+        for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] - other.GetItem(i);
+        return temp;
     };
 
     NDArray operator * (const NDArray<T> & other){
-        if (shape == other.shape) {
-            NDArray<T> temp(shape);
-            for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] * other.GetItem(i);
-            return temp;
-        }
+        NDArray<T> temp(shape);
+        for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] * other.GetItem(i);
+        return temp;
     };
 
     NDArray operator / (const NDArray<T> & other){
-        if (shape == other.shape) {
-            NDArray<T> temp(shape);
-            for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] / other.GetItem(i);
-            return temp;
-        }
+        NDArray<T> temp(shape);
+        for (int i = 0; i < GetSize(); i++) temp.arr[i] = arr[i] / other.GetItem(i);
+        return temp;
     };
 
     //matmull
@@ -259,7 +251,7 @@ int main() {
     std::cout << "\n=======================================\n" << std::endl;
 
     NDArray<int> res(std::vector<int>{3,3});
-    NDArray<int> arr1(std::vector<int>{3,3});
+    NDArray<int> arr1(std::vector<int>{2,3});
     arr1.ones();
     NDArray<int> arr2(std::vector<int>{3,3});
     arr2.ones();
@@ -342,5 +334,6 @@ int main() {
 
     std::cout << "Changed Array: " << std::endl;
     err.shapePrint();
+    system("pause");
     return 0;
 }

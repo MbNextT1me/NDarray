@@ -1,4 +1,5 @@
-run: first
+run: prog
 
-first:
+prog:
 	g++ main.cpp -o main
+	main
