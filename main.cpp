@@ -334,6 +334,6 @@ int main() {
 
     std::cout << "Changed Array: " << std::endl;
     err.shapePrint();
-    system("pause");
+    //system("pause");
     return 0;
 }
