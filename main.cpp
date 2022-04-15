@@ -180,32 +180,99 @@ public:
     }
 
     //min, max, avg with range
-    T min(int begin, int end){
-        if(Check_begin_end(begin,end) != 0) return -1;
-        T min = arr[begin];
-        for(int i = begin; i < end; i++){
-            if (arr[i] < min) min = arr[i];
+    T* min(int reduction){
+        T* array = nullptr;
+        int rows = shape.at(0);
+        int columns = shape.at(1);
+        if (reduction == 0) {
+            array = new T[columns];
+            for(int i = 0; i < columns; i++){
+                T min = arr[i];
+                for (int j = 1; j < rows; j++) {
+                    if (min > arr[i+columns*j]) min = arr[i+columns*j];
+                }
+                array[i] = min;
+                std::cout << min << " ";
+            }
+        } else if (reduction == 1) {
+            array = new T[rows];
+            int temp = 0;
+            for(int i = 0; i < rows; i++){
+                T min = arr[temp];
+                for (int j = 0; j < columns; j++) {
+                    if (min > arr[temp+j]) min = arr[temp+j];
+                }
+                array[i] = min;
+                std::cout << min << " ";
+                temp += columns;
+            }
         }
-        return min;
+        std::cout << "\n";
+        return array;
     }
 
-    T max(int begin, int end){
-        if(Check_begin_end(begin,end) != 0) return -1;
-        T max = arr[begin];
-        for(int i = begin; i < end; i++){
-            if (arr[i] > max) max = arr[i];
+    T* max(int reduction){
+        T *array = nullptr;
+        int rows = shape.at(0);
+        int columns = shape.at(1);
+        if (reduction == 0) {
+            array = new T[columns];
+            for(int i = 0; i < columns; i++){
+                T min = arr[i];
+                for (int j = 1; j < rows; j++) {
+                    if (min < arr[i+columns*j]) min = arr[i+columns*j];
+                }
+                array[i] = min;
+                std::cout << min << " ";
+            }
+        } else if (reduction == 1) {
+            array = new T[rows];
+            int temp = 0;
+            for(int i = 0; i < rows; i++){
+                T min = arr[temp];
+                for (int j = 0; j < columns; j++) {
+                    if (min < arr[temp+j]) min = arr[temp+j];
+                }
+                array[i] = min;
+                std::cout << min << " ";
+                temp += columns;
+            }
         }
-        return max;
+        std::cout << "\n";
+        return array;
     }
 
-    float avg(int begin, int end){
-        if(Check_begin_end(begin,end) != 0) return -1;
-        float sum = 0;
-        for(int i = begin; i < end; i++){
-            sum+=arr[i];
+    float* avg(int reduction){
+        float *array = nullptr;
+        int rows = shape.at(0);
+        int columns = shape.at(1);
+        if (reduction == 0) {
+            array = new float[columns];
+            for(int i = 0; i < columns; i++){
+                float sum = arr[i];
+                for (int j = 1; j < rows; j++) {
+                    sum += arr[i+columns*j];
+                }
+                array[i] = sum / rows;
+                std::cout << array[i] << " ";
+            }
+        } else if (reduction == 1) {
+            array = new float[rows];
+            int temp = 0;
+            for(int i = 0; i < rows; i++){
+                float sum = 0;
+                for (int j = 0; j < columns; j++) {
+                    sum += arr[temp+j];
+                }
+                array[i] = sum / columns;
+                std::cout << array[i] << " ";
+                temp += columns;
+            }
         }
-        return sum / (end-begin);
+        std::cout << "\n";
+        return array;
     }
+
 
     //slice
     T* slice (int begin, int end) {
@@ -297,7 +364,7 @@ int main() {
 
     std::cout << "\n=======================================\n" << std::endl;
 
-    //min,max,avg without range
+    //min,max,avg without reduction
     int array3[8]{11,6,3,7,4,8,5,9};
     NDArray<int> crr(std::vector<int>{4,2}, array3);
     std::cout << "Basic Array: " << std::endl;
@@ -308,14 +375,17 @@ int main() {
 
     std::cout << "\n=======================================\n" << std::endl;
 
-    //min,max,avg with range
-    int array[9]{11,6,3,7,4,8,5,9, 10};
+    //min,max,avg with reduction
+    int array[9]{0,1,2,3,4,5,6,7,8};
     NDArray<int> drr(std::vector<int>{3,3}, array);
     std::cout << "Basic Array: " << std::endl;
     drr.shapePrint();
-    std::cout << "Min arr elem in range(0-3): " <<  drr.min(0,3) << std::endl;
-    std::cout << "Max arr elem in range(3-6): " << drr.max(3,6) << std::endl;
-    std::cout << "Avg arr elems in range(6-9): " << drr.avg(6,9) << std::endl;
+    std::cout << "Min arr elems in reduction(0): "; drr.min(0);
+    std::cout << "Min arr elems in reduction(1): "; drr.min(1);
+    std::cout << "Max arr elems in reduction(0): "; drr.max(0);
+    std::cout << "Max arr elems in reduction(1): "; drr.max(1);
+    std::cout << "Avg arr elems in reduction(0): "; drr.avg(0);
+    std::cout << "Avg arr elems in reduction(1): "; drr.avg(1);
 
     std::cout << "\n=======================================\n" << std::endl;
 
